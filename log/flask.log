@@ -1,3 +1,20 @@
 [2019-11-13 23:15:21,229][demo.py:19][INFO][123145483792384] - test2 post is successful
 [2019-11-13 23:17:19,277][demo.py:19][INFO][123145522622464] - test2 post is successful
 [2019-11-13 23:28:06,037][demo.py:19][INFO][123145489788928] - test2 post is successful
+[2019-11-14 00:38:35,981][demo.py:19][INFO][123145489788928] - test2 post is successful
+[2019-11-14 00:42:24,442][global_logger.py:12][INFO][123145323446272] - {'url': 'http://127.0.0.1:5000/demo/methods', 'method': 'POST'}
+[2019-11-14 00:42:24,442][demo.py:19][INFO][123145323446272] - test2 post is successful
+[2019-11-14 00:43:21,616][global_logger.py:12][INFO][123145314369536] - {'url': 'http://127.0.0.1:5000/demo/methods', 'method': 'POST'}
+[2019-11-14 00:43:21,616][demo.py:19][INFO][123145314369536] - test2 post is successful
+[2019-11-14 00:45:59,363][global_logger.py:12][INFO][123145497612288] - {'url': 'http://127.0.0.1:5000/demo/methods', 'method': 'POST'}
+[2019-11-14 00:45:59,364][demo.py:19][INFO][123145497612288] - test2 post is successful
+[2019-11-14 00:45:59,364][global_logger.py:19][INFO][123145497612288] - {'data': b'{\n  "data": "POST", \n  "status": "success"\n}\n'}
+[2019-11-14 00:46:55,590][global_logger.py:12][INFO][123145464348672] - {'url': 'http://127.0.0.1:5000/demo/methods', 'method': 'POST'}
+[2019-11-14 00:46:55,591][demo.py:19][INFO][123145464348672] - test2 post is successful
+[2019-11-14 00:46:55,594][global_logger.py:19][INFO][123145464348672] - {'data': {'data': 'POST', 'status': 'success'}}
+[2019-11-14 00:48:07,947][global_logger.py:12][INFO][123145333448704] - {'url': 'http://127.0.0.1:5000/demo/methods', 'method': 'POST'}
+[2019-11-14 00:48:07,948][demo.py:19][INFO][123145333448704] - test2 post is successful
+[2019-11-14 00:48:07,948][global_logger.py:20][INFO][123145333448704] - {'status': 'success', 'data': 'POST'}
+[2019-11-14 00:48:32,700][global_logger.py:12][INFO][123145317720064] - {'url': 'http://127.0.0.1:5000/demo/methods', 'method': 'POST'}
+[2019-11-14 00:48:32,700][demo.py:19][INFO][123145317720064] - test2 post is successful
+[2019-11-14 00:48:32,702][global_logger.py:18][INFO][123145317720064] - {'data': 'POST', 'status': 'success'}
