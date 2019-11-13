@@ -5,7 +5,7 @@ from flask import Flask
 
 
 def create_logger(app: Flask):
-    path = Path(__file__).parent.parent
+    path = Path(__file__).parent.parent.parent
     log_file = path / 'log/flask.log'
 
     handler = TimedRotatingFileHandler(filename=log_file, when='D', interval=1, backupCount=4,
