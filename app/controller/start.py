@@ -18,7 +18,7 @@ def send_code():
             return fail_res('参数格式错误')
         code = create_random_code()
         store_code_in_redis(phone, code)
-        # send_message(phone, code)
+        send_message(phone, code)
         return success_res('短信发送成功')
     except ConnectionError:
         current_app.logger.info('redis请求失败')
