@@ -3,6 +3,7 @@ from app.controller import register_routes
 from app.config.logger import create_logger
 from app.middleware.global_logger import create_global_logger
 from app.util.redis import red
+from app.model import connect_database
 
 
 def create_app():
@@ -17,4 +18,6 @@ def create_app():
     register_routes(app)
     # 连接redis
     red.connect_redis(app)
+    # 连接数据库
+    connect_database(app)
     return app

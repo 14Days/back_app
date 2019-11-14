@@ -46,6 +46,6 @@ def store_code_in_redis(phone: str, code: str):
         raise
 
 
-def get_code_in_redis(phone: str) -> str:
+def get_code_from_redis(phone: str) -> bytes:
     code = red.connection.get(phone)
     return code
