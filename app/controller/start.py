@@ -1,9 +1,11 @@
 import re
 from flask import Blueprint, request, current_app
 from app.util.message import send_message, create_random_code, store_code_in_redis, get_code_from_redis
-from app.util.exception import RegisterException
+from app.util.exception import RegisterException, LoginException
 from app.util.response import success_res, fail_res
-from app.model.user import add_user
+from app.model.user import add_user, user_login
+from app.util.jwt import create_token, set_jwt_in_redis
+from app.util.md5 import encode_md5
 
 start = Blueprint('start', __name__)
 
@@ -60,9 +62,22 @@ def register():
         return fail_res(e.err_msg)
 
 
-# @start.route('login', methods=['POST'])
-# def login():
-#     data = request.json
-#     if data is None:
-#         return fail_res('参数缺失')
-#     username = data.get('username')
+@start.route('login', methods=['POST'])
+def login():
+    try:
+        data = request.json
+        if data is None:
+            return fail_res('参数缺失')
+        username = data.get('username')
+        password = data.get('password')
+        if username is None or password is None:
+            return fail_res('参数缺失')
+        password = encode_md5(password)
+        user_id = user_login(username, password)
+        token = create_token(user_id)
+        set_jwt_in_redis(user_id, token)
+        return success_res(token)
+
+    except LoginException as e:
+        current_app.logger.error(e.err_msg)
+        return fail_res(e.err_msg)
