@@ -58,3 +58,11 @@ def register():
     except RegisterException as e:
         current_app.logger.info(e.err_msg)
         return fail_res(e.err_msg)
+
+
+# @start.route('login', methods=['POST'])
+# def login():
+#     data = request.json
+#     if data is None:
+#         return fail_res('参数缺失')
+#     username = data.get('username')
