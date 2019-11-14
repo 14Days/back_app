@@ -1,7 +1,7 @@
 from flask import Blueprint, request, current_app
 from app.util.response import success_res
 
-demo = Blueprint('demo', __name__, url_prefix='/demo')
+demo = Blueprint('demo', __name__)
 
 
 @demo.route('/success')
