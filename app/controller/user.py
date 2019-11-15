@@ -1,8 +1,9 @@
-from flask import Blueprint, request, g
+from flask import Blueprint, request, g, current_app
 from app.model.color import get_color_list
 from app.util.response import fail_res, success_res
-from app.model.user_color import post_color
+from app.model.user_color import post_color, get_color
 from app.model.user import get_user_info
+from app.util.exception import DataBaseException
 
 user = Blueprint('user', __name__)
 
@@ -22,4 +23,11 @@ def color():
 @user.route('/info', methods=['GET', 'POST'])
 def info():
     if request.method == 'GET':
-        return success_res(get_user_info(g.user_id))
+        try:
+            data = get_user_info(user_id=g.user_id)
+            user_color = get_color(user_id=g.user_id)
+            data['color'] = user_color
+            return success_res(data)
+        except DataBaseException as e:
+            current_app.logger.error(e.err_msg)
+            return fail_res(e.err_msg)
