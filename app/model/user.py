@@ -46,7 +46,7 @@ def get_user_info(user_id: int) -> dict:
     }
 
 
-def post_user_info(user_id: int, sex: str, email: str, nickname: str):
+def post_user_info(user_id: int, sex: int, email: str, nickname: str):
     user = AppUser.query.filter_by(id=user_id).first()
     user.sex = sex
     user.email = email

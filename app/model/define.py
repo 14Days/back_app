@@ -8,7 +8,7 @@ class AppUser(db.Model):
     password = db.Column(db.VARCHAR(255))
     phone = db.Column(db.CHAR(11))
     nickname = db.Column(db.VARCHAR(20), default='nickname')
-    sex = db.Column(db.CHAR(1), default='F')
+    sex = db.Column(db.Integer, default='1')
     email = db.Column(db.VARCHAR(255), default='email')
     avatar = db.Column(db.VARCHAR(255), default='avatar')
 
