@@ -1,6 +1,6 @@
 from app.model import db
 from app.model.define import AppUser
-from app.util.exception import RegisterException
+from app.util.exception import RegisterException, CommonException
 from app.util.md5 import encode_md5
 from app.util.exception import LoginException
 
@@ -51,4 +51,13 @@ def post_user_info(user_id: int, sex: int, email: str, nickname: str):
     user.sex = sex
     user.email = email
     user.nickname = nickname
+    db.session.commit()
+
+
+def change_password(user_id: int, old_password: str, new_password: str):
+    old_password = encode_md5(old_password)
+    res = AppUser.query.filter_by(id=user_id).first()
+    if res.password != old_password:
+        raise CommonException('密码错误')
+    res.password = encode_md5(new_password)
     db.session.commit()
