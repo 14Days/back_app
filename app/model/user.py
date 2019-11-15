@@ -3,6 +3,7 @@ from app.model.define import AppUser
 from app.util.exception import RegisterException, CommonException
 from app.util.md5 import encode_md5
 from app.util.exception import LoginException
+from app.util.redis import red
 
 
 def add_user(username: str, password: str, phone: str):
@@ -61,3 +62,7 @@ def change_password(user_id: int, old_password: str, new_password: str):
         raise CommonException('密码错误')
     res.password = encode_md5(new_password)
     db.session.commit()
+
+
+def delete_jwt_in_redis(user_id: int):
+    red.connection.delete(user_id)

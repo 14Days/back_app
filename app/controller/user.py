@@ -2,7 +2,7 @@ from flask import Blueprint, request, g, current_app
 from app.model.color import get_color_list
 from app.util.response import fail_res, success_res
 from app.model.user_color import post_color, get_color
-from app.model.user import get_user_info, post_user_info, change_password
+from app.model.user import get_user_info, post_user_info, change_password, delete_jwt_in_redis
 from app.util.exception import DataBaseException, CommonException
 
 user = Blueprint('user', __name__)
@@ -56,3 +56,10 @@ def password():
     except CommonException as e:
         current_app.logger.error(e.err_msg)
         return fail_res(e.err_msg)
+
+
+@user.route('/logout', methods=['POST'])
+def logout():
+    user_id = g.user_id
+    delete_jwt_in_redis(user_id)
+    return success_res('退出登录')
