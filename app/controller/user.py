@@ -2,7 +2,7 @@ from flask import Blueprint, request, g, current_app
 from app.model.color import get_color_list
 from app.util.response import fail_res, success_res
 from app.model.user_color import post_color, get_color
-from app.model.user import get_user_info
+from app.model.user import get_user_info, post_user_info
 from app.util.exception import DataBaseException
 
 user = Blueprint('user', __name__)
@@ -31,3 +31,14 @@ def info():
         except DataBaseException as e:
             current_app.logger.error(e.err_msg)
             return fail_res(e.err_msg)
+
+    if request.method == 'POST':
+        user_id = g.user_id
+        data = request.json
+        if data is None:
+            return fail_res('参数缺失')
+        email = data.get('email')
+        sex = data.get('sex')
+        nickname = data.get('nickname')
+        post_user_info(user_id, sex, email, nickname)
+        return success_res('编辑成功')

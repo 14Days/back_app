@@ -44,3 +44,11 @@ def get_user_info(user_id: int) -> dict:
         'sex': res.sex,
         'email': res.email
     }
+
+
+def post_user_info(user_id: int, sex: str, email: str, nickname: str):
+    user = AppUser.query.filter_by(id=user_id).first()
+    user.sex = sex
+    user.email = email
+    user.nickname = nickname
+    db.session.commit()
