@@ -42,3 +42,6 @@ def info():
         nickname = data.get('nickname')
         post_user_info(user_id, sex, email, nickname)
         return success_res('编辑成功')
+
+
+

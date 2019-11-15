@@ -23,3 +23,13 @@ class Color(db.Model):
     __tablename__ = 'color'
     id = db.Column(db.Integer, primary_key=True)
     color = db.Column(db.VARCHAR(255))
+
+
+class Notice(db.Model):
+    __tablename__ = 'notice'
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.VARCHAR(255))
+    type = db.Column(db.Integer)
+    create_at = db.Column(db.DATETIME)
+
+
