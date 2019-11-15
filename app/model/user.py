@@ -33,3 +33,14 @@ def user_login(username: str, password: str) -> int:
 def find_user(user_id: int) -> AppUser:
     res = AppUser.query.filter_by(id=user_id)
     return res.first()
+
+
+def get_user_info(user_id: int) -> dict:
+    res = AppUser.query.filter_by(id=user_id).first()
+    return {
+        'name': res.username,
+        'phone': res.phone,
+        'nickname': res.nickname,
+        'sex': res.sex,
+        'email': res.email
+    }
