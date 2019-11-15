@@ -3,7 +3,7 @@ from flask import Blueprint, request, current_app
 from app.util.message import send_message, create_random_code, store_code_in_redis, get_code_from_redis
 from app.util.exception import RegisterException, LoginException
 from app.util.response import success_res, fail_res
-from app.model.user import add_user, user_login
+from app.model.user import add_user, user_login, check_phone
 from app.util.jwt import create_token, set_jwt_in_redis
 from app.util.md5 import encode_md5
 
@@ -18,6 +18,7 @@ def send_code():
             return fail_res('参数缺失')
         if not re.match(r"^1[35678]\d{9}$", phone):
             return fail_res('参数格式错误')
+        check_phone(phone)
         code = create_random_code()
         store_code_in_redis(phone, code)
         send_message(phone, code)
