@@ -4,7 +4,8 @@ from app.util.response import fail_res, success_res
 from app.model.user_color import post_color, get_color
 from app.model.user import get_user_info, post_user_info, change_password, delete_jwt_in_redis
 from app.util.exception import DataBaseException, CommonException
-from app.model.user_user import post_follow, delete_follow
+from app.model.user_follow_user import post_follow, delete_follow
+from app.model.user_collect_recommend import post_collect
 
 user = Blueprint('user', __name__)
 
@@ -81,3 +82,13 @@ def follow():
     if request.method == 'DELETE':
         delete_follow(user_id, web_id)
         return success_res('取关成功')
+
+
+@user.route('collect', methods=['POST', 'DELETE'])
+def collect():
+    user_id = g.user_id
+    data = request.json
+    commend_id = data.get('id')
+    if request.method == 'POST':
+        post_collect(user_id, commend_id)
+        return success_res('收藏成功')

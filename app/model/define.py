@@ -6,6 +6,22 @@ app_user_user = db.Table(
     db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
 )
 
+favorite = db.Table(
+    'favorite',
+    db.Column('id', db.Integer, primary_key=True),
+    db.Column('app_user_id', db.Integer, db.ForeignKey('app_user.id')),
+    db.Column('recommend_id', db.Integer, db.ForeignKey('recommend.id'))
+)
+
+
+class Recommend(db.Model):
+    __tablename__ = 'recommend'
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.VARCHAR(255))
+    create_at = db.Column(db.DATETIME)
+    delete_at = db.Column(db.DATETIME)
+    user_id = db.Column(db.Integer)
+
 
 class AppUser(db.Model):
     __tablename__ = 'app_user'
@@ -17,6 +33,7 @@ class AppUser(db.Model):
     sex = db.Column(db.Integer, default='1')
     email = db.Column(db.VARCHAR(255), default='email')
     avatar = db.Column(db.VARCHAR(255), default='avatar')
+    recommends = db.relationship('Recommend', secondary=favorite, backref=db.backref('collectors', lazy=True))
 
 
 class User(db.Model):
