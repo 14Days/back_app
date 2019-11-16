@@ -11,3 +11,10 @@ def post_follow(app_id: int, web_id: int):
     web_user.app_users.append(app_user)
     db.session.add(web_user)
     db.session.commit()
+
+
+def delete_follow(app_id: int, web_id: int):
+    app_user = AppUser.query.filter_by(id=app_id).first()
+    web_user = User.query.filter_by(id=web_id).first()
+    web_user.app_users.remove(app_user)
+    db.session.commit()

@@ -4,7 +4,7 @@ from app.util.response import fail_res, success_res
 from app.model.user_color import post_color, get_color
 from app.model.user import get_user_info, post_user_info, change_password, delete_jwt_in_redis
 from app.util.exception import DataBaseException, CommonException
-from app.model.user_user import post_follow
+from app.model.user_user import post_follow, delete_follow
 
 user = Blueprint('user', __name__)
 
@@ -68,15 +68,16 @@ def logout():
 
 @user.route('follow', methods=['POST', 'DELETE'])
 def follow():
+    user_id = g.user_id
+    data = request.json
+    web_id = data.get('id')
     if request.method == 'POST':
         try:
-            user_id = g.user_id
-            data = request.json
-            web_id = data.get('id')
             post_follow(user_id, web_id)
             return success_res('关注成功')
         except CommonException as e:
             current_app.logger.error(e.err_msg)
             return fail_res(e.err_msg)
     if request.method == 'DELETE':
-        pass
+        delete_follow(user_id, web_id)
+        return success_res('取关成功')
