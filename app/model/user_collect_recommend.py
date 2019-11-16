@@ -8,3 +8,10 @@ def post_collect(user_id: int, recommend_id: int):
     user.recommends.append(recommend)
     db.session.add(user)
     db.session.commit()
+
+
+def delete_collect(user_id: int, recommend_id: int):
+    user = AppUser.query.filter_by(id=user_id).first()
+    recommend = Recommend.query.filter_by(id=recommend_id).first()
+    user.recommends.remove(recommend)
+    db.session.commit()
