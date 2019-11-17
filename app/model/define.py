@@ -8,7 +8,12 @@ app_user_user = db.Table(
 
 favorite = db.Table(
     'favorite',
-    db.Column('id', db.Integer, primary_key=True),
+    db.Column('app_user_id', db.Integer, db.ForeignKey('app_user.id')),
+    db.Column('recommend_id', db.Integer, db.ForeignKey('recommend.id'))
+)
+
+thumb = db.Table(
+    'thumb',
     db.Column('app_user_id', db.Integer, db.ForeignKey('app_user.id')),
     db.Column('recommend_id', db.Integer, db.ForeignKey('recommend.id'))
 )
@@ -33,7 +38,8 @@ class AppUser(db.Model):
     sex = db.Column(db.Integer, default='1')
     email = db.Column(db.VARCHAR(255), default='email')
     avatar = db.Column(db.VARCHAR(255), default='avatar')
-    recommends = db.relationship('Recommend', secondary=favorite, backref=db.backref('collectors', lazy=True))
+    collects = db.relationship('Recommend', secondary=favorite, backref=db.backref('collectors', lazy=True))
+    likes = db.relationship('Recommend', secondary=thumb, backref=db.backref('likes', lazy=True))
 
 
 class User(db.Model):

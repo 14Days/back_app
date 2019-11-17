@@ -6,6 +6,7 @@ from app.model.user import get_user_info, post_user_info, change_password, delet
 from app.util.exception import DataBaseException, CommonException
 from app.model.user_follow_user import post_follow, delete_follow
 from app.model.user_collect_recommend import post_collect, delete_collect
+from app.model.user_like_recommend import post_like, delete_like
 
 user = Blueprint('user', __name__)
 
@@ -90,11 +91,19 @@ def collect():
     data = request.json
     recommend_id = data.get('id')
     if request.method == 'POST':
-        post_collect(user_id, recommend_id)
-        return success_res('收藏成功')
+        try:
+            post_collect(user_id, recommend_id)
+            return success_res('收藏成功')
+        except CommonException as e:
+            current_app.logger.error(e.err_msg)
+            return fail_res(e.err_msg)
     if request.method == 'DELETE':
-        delete_collect(user_id, recommend_id)
-        return success_res('取消收藏成功')
+        try:
+            delete_collect(user_id, recommend_id)
+            return success_res('取消收藏成功')
+        except CommonException as e:
+            current_app.logger.error(e.err_msg)
+            return fail_res(e.err_msg)
 
 
 @user.route('/like', methods=['POST', 'DELETE'])
@@ -103,6 +112,16 @@ def like():
     data = request.json
     recommend_id = data.get('id')
     if request.method == 'POST':
-        pass
+        try:
+            post_like(user_id, recommend_id)
+            return success_res('点赞成功')
+        except CommonException as e:
+            current_app.logger.error(e.err_msg)
+            return fail_res(e.err_msg)
     if request.method == 'DELETE':
-        pass
+        try:
+            delete_like(user_id, recommend_id)
+            return fail_res('取消点赞成功')
+        except CommonException as e:
+            current_app.logger.error(e.err_msg)
+            return fail_res(e.err_msg)
