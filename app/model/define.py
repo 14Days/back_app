@@ -37,7 +37,7 @@ class AppUser(db.Model):
     nickname = db.Column(db.VARCHAR(20), default='nickname')
     sex = db.Column(db.Integer, default='1')
     email = db.Column(db.VARCHAR(255), default='email')
-    avatar = db.Column(db.VARCHAR(255), default='avatar')
+    avatar = db.relationship('AppAvatar', backref=db.backref('avatars'), lazy=True)
     collects = db.relationship('Recommend', secondary=favorite, backref=db.backref('collectors', lazy=True))
     likes = db.relationship('Recommend', secondary=thumb, backref=db.backref('likes', lazy=True))
 
@@ -72,3 +72,11 @@ class Notice(db.Model):
     content = db.Column(db.VARCHAR(255))
     type = db.Column(db.Integer)
     create_at = db.Column(db.DATETIME)
+
+
+class AppAvatar(db.Model):
+    __tablename__ = 'app_avatar'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.VARCHAR(255))
+    status = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('app_user.id'), nullable=False)
