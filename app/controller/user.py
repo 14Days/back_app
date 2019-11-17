@@ -67,7 +67,7 @@ def logout():
     return success_res('退出登录')
 
 
-@user.route('follow', methods=['POST', 'DELETE'])
+@user.route('/follow', methods=['POST', 'DELETE'])
 def follow():
     user_id = g.user_id
     data = request.json
@@ -84,7 +84,7 @@ def follow():
         return success_res('取关成功')
 
 
-@user.route('collect', methods=['POST', 'DELETE'])
+@user.route('/collect', methods=['POST', 'DELETE'])
 def collect():
     user_id = g.user_id
     data = request.json
@@ -95,3 +95,14 @@ def collect():
     if request.method == 'DELETE':
         delete_collect(user_id, recommend_id)
         return success_res('取消收藏成功')
+
+
+@user.route('/like', methods=['POST', 'DELETE'])
+def like():
+    user_id = g.user_id
+    data = request.json
+    recommend_id = data.get('id')
+    if request.method == 'POST':
+        pass
+    if request.method == 'DELETE':
+        pass
