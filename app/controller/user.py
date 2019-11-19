@@ -1,3 +1,4 @@
+import cv2
 from pathlib import Path
 from flask import Blueprint, request, g, current_app
 from app.model.color import get_color_list
@@ -142,6 +143,13 @@ def avatar():
     def allow_file(name: str) -> bool:
         return '.' in name and name.rsplit('.', 1)[1] in _ALLOWED_EXTENSIONS
 
+    def compress(path: str) -> str:
+        img1 = cv2.imread(path, cv2.IMREAD_COLOR)
+        new_path = path.rsplit('.', 1)[0] + '.jpg'
+        cv2.imwrite(new_path, img1, [cv2.IMWRITE_JPEG_QUALITY, 30])
+
+        return new_path
+
     img = request.files.get('avatar')
     filename = img.filename
 
@@ -149,8 +157,10 @@ def avatar():
         ext = filename.split('.', 1)[1]
         filename = encode_md5(filename)
         new_filename = filename + '.' + ext
-        img.save(str(file_dir / new_filename))
-        post_avatar(user_id, new_filename)
+        path1 = str(file_dir / new_filename)
+        img.save(path1)
+        path1 = compress(path1)
+        post_avatar(user_id, path1)
         return success_res('上传成功')
     else:
         return fail_res('参数错误')
