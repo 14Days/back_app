@@ -1,4 +1,4 @@
-from app.model.define import Recommend, AppUser
+from app.model.define import Recommend, AppUser, User
 
 
 def get_recommends(user_id: int, recommends_id: list) -> list:
@@ -51,4 +51,14 @@ def get_recommends(user_id: int, recommends_id: list) -> list:
             'is_collected': is_collected,
             'is_liked': is_liked
         })
+    return li
+
+
+def web_user_recommend(webs_id: list) -> list:
+    li = []
+    for web_id in webs_id:
+        user = User.query.filter_by(id=web_id).first()
+        recommends = user.recommends
+        for recommend in recommends:
+            li.append(recommend.id)
     return li

@@ -18,3 +18,14 @@ def delete_follow(app_id: int, web_id: int):
     web_user = User.query.filter_by(id=web_id).first()
     web_user.app_users.remove(app_user)
     db.session.commit()
+
+
+def get_follow(app_id: int) -> list:
+    app_user = AppUser.query.filter_by(id=app_id).first()
+    web_user = app_user.followers
+    if len(web_user) == 0:
+        raise CommonException('尚未关注用户')
+    li = []
+    for item in web_user:
+        li.append(item.id)
+    return li
