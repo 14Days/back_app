@@ -20,3 +20,5 @@ def recommend():
     except DataBaseException as e:
         current_app.logger.error(e.err_msg)
         return fail_res(e.err_msg)
+
+

@@ -33,6 +33,7 @@ def info():
             data = get_user_info(user_id=g.user_id)
             user_color = get_color(user_id=g.user_id)
             data['color'] = user_color
+            data['avatar'] = get_avatar(user_id=g.user_id)
             return success_res(data)
         except DataBaseException as e:
             current_app.logger.error(e.err_msg)
@@ -130,29 +131,26 @@ def like():
             return fail_res(e.err_msg)
 
 
-@user.route('/avatar', methods=['POST', 'GET'])
+@user.route('/avatar', methods=['POST'])
 def avatar():
     user_id = g.user_id
-    if request.method == 'POST':
-        _UPLOAD_FOLDER = 'avatar'
-        base_dir = Path(__file__).parent.parent.parent
-        file_dir = base_dir / _UPLOAD_FOLDER
-        _ALLOWED_EXTENSIONS = {'jpg', 'JPG', 'png', 'PNG', 'gif', 'GIF'}
+    _UPLOAD_FOLDER = 'avatar'
+    base_dir = Path(__file__).parent.parent.parent
+    file_dir = base_dir / _UPLOAD_FOLDER
+    _ALLOWED_EXTENSIONS = {'jpg', 'JPG', 'png', 'PNG', 'gif', 'GIF'}
 
-        def allow_file(name: str) -> bool:
-            return '.' in name and name.rsplit('.', 1)[1] in _ALLOWED_EXTENSIONS
+    def allow_file(name: str) -> bool:
+        return '.' in name and name.rsplit('.', 1)[1] in _ALLOWED_EXTENSIONS
 
-        img = request.files.get('avatar')
-        filename = img.filename
+    img = request.files.get('avatar')
+    filename = img.filename
 
-        if img and allow_file(filename):
-            ext = filename.split('.', 1)[1]
-            filename = encode_md5(filename)
-            new_filename = filename + '.' + ext
-            img.save(str(file_dir / new_filename))
-            post_avatar(user_id, filename)
-            return success_res('上传成功')
-        else:
-            return fail_res('参数错误')
-    if request.method == 'GET':
-        return success_res(get_avatar(user_id))
+    if img and allow_file(filename):
+        ext = filename.split('.', 1)[1]
+        filename = encode_md5(filename)
+        new_filename = filename + '.' + ext
+        img.save(str(file_dir / new_filename))
+        post_avatar(user_id, new_filename)
+        return success_res('上传成功')
+    else:
+        return fail_res('参数错误')
