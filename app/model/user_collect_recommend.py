@@ -20,3 +20,14 @@ def delete_collect(user_id: int, recommend_id: int):
         raise CommonException('还未收藏该图片')
     user.collects.remove(recommend)
     db.session.commit()
+
+
+def get_collect(user_id: int) -> list:
+    user = AppUser.query.filter_by(id=user_id).first()
+    collects = user.collects
+    if len(collects) == 0:
+        raise CommonException('还未收藏图片')
+    li = []
+    for collect in collects:
+        li.append(collect.id)
+    return li

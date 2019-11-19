@@ -6,6 +6,7 @@ from app.util.exception import DataBaseException, CommonException
 from app.model.tag_find_recommend import find_recommend
 from app.model.recommend import get_recommends, web_user_recommend
 from app.model.user_follow_user import get_follow
+from app.model.user_collect_recommend import get_collect
 
 assets = Blueprint('assets', __name__)
 
@@ -29,6 +30,17 @@ def follow():
         user_id = g.user_id
         web_user_id = get_follow(user_id)
         recommends_id = web_user_recommend(web_user_id)
+        return success_res(get_recommends(user_id, recommends_id))
+    except CommonException as e:
+        current_app.logger.error(e.err_msg)
+        return fail_res(e.err_msg)
+
+
+@assets.route('/collect')
+def collect():
+    try:
+        user_id = g.user_id
+        recommends_id = get_collect(user_id)
         return success_res(get_recommends(user_id, recommends_id))
     except CommonException as e:
         current_app.logger.error(e.err_msg)
