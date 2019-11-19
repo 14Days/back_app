@@ -1,4 +1,4 @@
-from flask import Blueprint, g, current_app
+from flask import Blueprint, g, current_app, request
 from app.model.user_color import get_color
 from app.model.color_find_tag import find_tag
 from app.util.response import success_res, fail_res
@@ -42,6 +42,22 @@ def collect():
         user_id = g.user_id
         recommends_id = get_collect(user_id)
         return success_res(get_recommends(user_id, recommends_id))
+    except CommonException as e:
+        current_app.logger.error(e.err_msg)
+        return fail_res(e.err_msg)
+
+
+@assets.route('/thing', methods=['POST'])
+def thing():
+    try:
+        user_id = g.user_id
+        data = request.json
+        tags_id = data.get('tags_id')
+        recommends_id = find_recommend(tags_id)
+        return success_res(get_recommends(user_id, recommends_id))
+    except DataBaseException as e:
+        current_app.logger.error(e.err_msg)
+        return fail_res(e.err_msg)
     except CommonException as e:
         current_app.logger.error(e.err_msg)
         return fail_res(e.err_msg)
