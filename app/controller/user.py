@@ -157,6 +157,7 @@ def avatar():
         new_filename = filename + '.' + ext
         path1 = str(file_dir / new_filename)
         img.save(path1)
+        compress(path1)
         post_avatar(user_id, filename + '.jpg')
         return success_res('上传成功')
     else:
