@@ -143,12 +143,10 @@ def avatar():
     def allow_file(name: str) -> bool:
         return '.' in name and name.rsplit('.', 1)[1] in _ALLOWED_EXTENSIONS
 
-    def compress(path: str) -> str:
+    def compress(path: str):
         img1 = cv2.imread(path, cv2.IMREAD_COLOR)
         new_path = path.rsplit('.', 1)[0] + '.jpg'
         cv2.imwrite(new_path, img1, [cv2.IMWRITE_JPEG_QUALITY, 30])
-
-        return new_path
 
     img = request.files.get('avatar')
     filename = img.filename
@@ -159,8 +157,7 @@ def avatar():
         new_filename = filename + '.' + ext
         path1 = str(file_dir / new_filename)
         img.save(path1)
-        path1 = compress(path1)
-        post_avatar(user_id, path1)
+        post_avatar(user_id, filename + '.jpg')
         return success_res('上传成功')
     else:
         return fail_res('参数错误')

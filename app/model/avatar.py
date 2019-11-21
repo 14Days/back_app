@@ -1,4 +1,4 @@
-from app.model.define import AppUser, AppAvatar
+from app.model.define import AppUser, AppAvatar, User
 from app.model import db
 
 
@@ -14,10 +14,17 @@ def post_avatar(user_id: int, avatar_name):
     db.session.commit()
 
 
-def get_avatar(user_id: int):
+def get_avatar(user_id: int) -> str:
     user = AppUser.query.filter_by(id=user_id).first()
     avatars = user.avatar
     for temp in avatars:
         if temp.status == 1:
             return temp.name
 
+
+def get_web_avatar(user_id: int) -> str:
+    web_user = User.query.filter_by(id=user_id).first()
+    avatars = web_user.avatar
+    for temp in avatars:
+        if temp.status == 1:
+            return temp.name

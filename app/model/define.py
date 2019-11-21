@@ -60,6 +60,8 @@ class User(db.Model):
     email = db.Column(db.VARCHAR(255), default='email')
     app_users = db.relationship('AppUser', secondary=app_user_user, backref=db.backref('followers', lazy=True))
     recommends = db.relationship('Recommend', backref=db.backref('who', lazy=True))
+    avatar = db.relationship('Avatar', backref=db.backref('belong', lazy=True))
+
 
 
 class AppUserColor(db.Model):
@@ -113,3 +115,11 @@ class AppAvatar(db.Model):
     name = db.Column(db.VARCHAR(255))
     status = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('app_user.id'), nullable=False)
+
+
+class Avatar(db.Model):
+    __tablename__ = 'avatar'
+    id = db.Column(db.Integer, primary_key=True)
+    name = db.Column(db.VARCHAR(255))
+    status = db.Column(db.Integer)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
