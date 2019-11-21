@@ -1,4 +1,5 @@
 from app.model.define import Recommend, AppUser, User
+from app.model.avatar import get_web_avatar
 
 
 def get_recommends(user_id: int, recommends_id: list) -> list:
@@ -7,6 +8,9 @@ def get_recommends(user_id: int, recommends_id: list) -> list:
         recommend = Recommend.query.filter_by(id=recommend_id).first()
         # 发布者
         user = recommend.who
+
+        # 发布者头像
+        avatar = get_web_avatar(user.id)
 
         # 推荐消息包含的图片
         imgs = recommend.imgs
@@ -42,6 +46,7 @@ def get_recommends(user_id: int, recommends_id: list) -> list:
             'id': recommend_id,
             'name': user.username,
             'imgs_name': imgs_name,
+            'avatar': avatar,
             'sum_likes': sum_likes,
             'sum_collects': sum_collects,
             'content': recommend.content,
