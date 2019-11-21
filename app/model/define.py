@@ -32,7 +32,8 @@ class Recommend(db.Model):
     create_at = db.Column(db.DATETIME)
     delete_at = db.Column(db.DATETIME)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    imgs = db.relationship('Img', backref=db.backref('recommend'))
+    imgs = db.relationship('Img', backref=db.backref('recommend', lazy=True))
+    top_comments = db.relationship('TopComment', backref=db.backref('recommend', lazy=True))
 
 
 class AppUser(db.Model):
@@ -47,6 +48,8 @@ class AppUser(db.Model):
     avatar = db.relationship('AppAvatar', backref=db.backref('avatars'), lazy=True)
     collects = db.relationship('Recommend', secondary=favorite, backref=db.backref('collectors', lazy=True))
     likes = db.relationship('Recommend', secondary=thumb, backref=db.backref('likers', lazy=True))
+    top_comments = db.relationship('TopComment', backref=db.backref('top_commentors', lazy=True))
+    second_comments = db.relationship('SecondComment', backref=db.backref('second_commentors', lazy=True))
 
 
 class User(db.Model):
@@ -61,7 +64,6 @@ class User(db.Model):
     app_users = db.relationship('AppUser', secondary=app_user_user, backref=db.backref('followers', lazy=True))
     recommends = db.relationship('Recommend', backref=db.backref('who', lazy=True))
     avatar = db.relationship('Avatar', backref=db.backref('belong', lazy=True))
-
 
 
 class AppUserColor(db.Model):
@@ -123,3 +125,22 @@ class Avatar(db.Model):
     name = db.Column(db.VARCHAR(255))
     status = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'), nullable=False)
+
+
+class TopComment(db.Model):
+    __tablename__ = 'top_comment'
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.VARCHAR(255))
+    create_at = db.Column(db.DATETIME)
+    app_user_id = db.Column(db.Integer, db.ForeignKey('app_user.id'), nullable=False)
+    recommend_id = db.Column(db.Integer, db.ForeignKey('recommend.id'), nullable=False)
+    second_comments = db.relationship('SecondComment', backref=db.backref('top_comment', lazy=False))
+
+
+class SecondComment(db.Model):
+    __tablename__ = 'second_comment'
+    id = db.Column(db.Integer, primary_key=True)
+    content = db.Column(db.VARCHAR, primary_key=True)
+    create_at = db.Column(db.DATETIME)
+    app_user_id = db.Column(db.Integer, db.ForeignKey('app_user.id'), nullable=False)
+    top_comment_id = db.Column(db.Integer, db.ForeignKey('top_comment.id'), nullable=False)

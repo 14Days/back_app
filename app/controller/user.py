@@ -11,6 +11,7 @@ from app.model.user_collect_recommend import post_collect, delete_collect
 from app.model.user_like_recommend import post_like, delete_like
 from app.util.md5 import encode_md5
 from app.model.avatar import post_avatar, get_avatar
+from app.model.comment import post_top_comment, post_second_comment
 
 user = Blueprint('user', __name__)
 
@@ -162,3 +163,17 @@ def avatar():
         return success_res('上传成功')
     else:
         return fail_res('参数错误')
+
+
+@user.route('/comment', methods=['POST'])
+def comment():
+    user_id = g.user_id
+    data = request.json
+    type_ = data.get('type')
+    id_ = data.get('id')
+    content = data.get('content')
+    if type_ == 1:
+        post_top_comment(user_id, id_, content)
+    else:
+        post_second_comment(user_id, id_, content)
+    return success_res('评论成功')
