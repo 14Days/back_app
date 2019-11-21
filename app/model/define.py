@@ -48,8 +48,8 @@ class AppUser(db.Model):
     avatar = db.relationship('AppAvatar', backref=db.backref('avatars'), lazy=True)
     collects = db.relationship('Recommend', secondary=favorite, backref=db.backref('collectors', lazy=True))
     likes = db.relationship('Recommend', secondary=thumb, backref=db.backref('likers', lazy=True))
-    top_comments = db.relationship('TopComment', backref=db.backref('top_commentors', lazy=True))
-    second_comments = db.relationship('SecondComment', backref=db.backref('second_commentors', lazy=True))
+    top_comments = db.relationship('TopComment', backref=db.backref('top_commentor', lazy=True))
+    second_comments = db.relationship('SecondComment', backref=db.backref('second_commentor', lazy=True))
 
 
 class User(db.Model):

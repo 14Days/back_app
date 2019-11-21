@@ -42,6 +42,27 @@ def get_recommends(user_id: int, recommends_id: list) -> list:
         if recommend in app_user.likes:
             is_liked = True
 
+        # 评论
+        top_comments = recommend.top_comments
+        top_li = []
+        for top_comment in top_comments:
+            top_commentor = top_comment.top_commentor
+            second_comments = top_comment.second_comments
+            second_li = []
+            for second_comment in second_comments:
+                second_commentor = second_comment.second_commentor
+                second_li.append({
+                    'content': second_comment.content,
+                    'create_at': second_comment.create_at,
+                    'create_by': second_commentor.nickname
+                })
+            top_li.append({
+                'content': top_comment.content,
+                'create_at': top_comment.create_at,
+                'create_by': top_commentor.nickname,
+                'second_comment': second_li
+            })
+
         li.append({
             'id': recommend_id,
             'name': user.username,
@@ -54,7 +75,8 @@ def get_recommends(user_id: int, recommends_id: list) -> list:
             'designer_id': user.id,
             'is_followed': is_followed,
             'is_collected': is_collected,
-            'is_liked': is_liked
+            'is_liked': is_liked,
+            'top_comment': top_li
         })
     return li
 
@@ -67,5 +89,3 @@ def web_user_recommend(webs_id: list) -> list:
         for recommend in recommends:
             li.append(recommend.id)
     return li
-
-
