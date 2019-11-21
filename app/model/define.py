@@ -42,7 +42,7 @@ class AppUser(db.Model):
     username = db.Column(db.VARCHAR(20))
     password = db.Column(db.VARCHAR(255))
     phone = db.Column(db.CHAR(11))
-    nickname = db.Column(db.VARCHAR(20), default='nickname')
+    nickname = db.Column(db.VARCHAR(20))
     sex = db.Column(db.Integer, default='1')
     email = db.Column(db.VARCHAR(255), default='email')
     avatar = db.relationship('AppAvatar', backref=db.backref('avatars'), lazy=True)

@@ -11,7 +11,7 @@ def add_user(username: str, password: str, phone: str):
     if res is not None:
         raise RegisterException('用户名已存在')
     password = encode_md5(password)
-    user = AppUser(username=username, password=password, phone=phone)
+    user = AppUser(username=username, password=password, phone=phone, nickname=username)
     db.session.add(user)
     db.session.commit()
 
