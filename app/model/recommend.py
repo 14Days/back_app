@@ -50,10 +50,14 @@ def get_recommends(user_id: int, recommends_id: list) -> list:
         top_comments = recommend.top_comments
         top_li = []
         for top_comment in top_comments:
+            if top_comment.delete_at is not None:
+                continue
             top_commentor = top_comment.top_commentor
             second_comments = top_comment.second_comments
             second_li = []
             for second_comment in second_comments:
+                if second_comment.delete_at is not None:
+                    continue
                 second_commentor = second_comment.second_commentor
                 second_li.append({
                     'content': second_comment.content,
