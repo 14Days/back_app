@@ -9,7 +9,7 @@ def find_recommend(tags_id: list) -> list:
         if tag is None:
             raise CommonException('不存在该分类')
         if len(tag.recommends) == 0:
-            raise CommonException('该分类未添加推荐消息')
+            raise CommonException('尚未添加推荐消息')
         for recommend in tag.recommends:
             li.append(recommend.id)
     return li
