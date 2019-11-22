@@ -127,7 +127,7 @@ def like():
     if request.method == 'DELETE':
         try:
             delete_like(user_id, recommend_id)
-            return fail_res('取消点赞成功')
+            return success_res('取消点赞成功')
         except CommonException as e:
             current_app.logger.error(e.err_msg)
             return fail_res(e.err_msg)
