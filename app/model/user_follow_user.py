@@ -16,6 +16,8 @@ def post_follow(app_id: int, web_id: int):
 def delete_follow(app_id: int, web_id: int):
     app_user = AppUser.query.filter_by(id=app_id).first()
     web_user = User.query.filter_by(id=web_id).first()
+    if app_user not in web_user.app_users:
+        raise CommonException('尚未关注该用户')
     web_user.app_users.remove(app_user)
     db.session.commit()
 

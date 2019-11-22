@@ -87,8 +87,12 @@ def follow():
             current_app.logger.error(e.err_msg)
             return fail_res(e.err_msg)
     if request.method == 'DELETE':
-        delete_follow(user_id, web_id)
-        return success_res('取关成功')
+        try:
+            delete_follow(user_id, web_id)
+            return success_res('取关成功')
+        except CommonException as e:
+            current_app.logger.error(e.err_msg)
+            return fail_res(e.err_msg)
 
 
 @user.route('/collect', methods=['POST', 'DELETE'])
