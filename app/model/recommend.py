@@ -6,6 +6,8 @@ def get_recommends(user_id: int, recommends_id: list) -> list:
     li = []
     for recommend_id in recommends_id:
         recommend = Recommend.query.filter_by(id=recommend_id).first()
+        if recommend.delete_at is not None:
+            continue
         # 发布者
         user = recommend.who
 
