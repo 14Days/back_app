@@ -18,6 +18,8 @@ def get_recommends(user_id: int, recommends_id: list) -> list:
         imgs = recommend.imgs
         imgs_name = []
         for img in imgs:
+            if img.delete_at is not None:
+                continue
             imgs_name.append(img.name)
 
         # 点赞总数
