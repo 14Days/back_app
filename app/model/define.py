@@ -45,6 +45,7 @@ class AppUser(db.Model):
     nickname = db.Column(db.VARCHAR(20))
     sex = db.Column(db.Integer, default='1')
     email = db.Column(db.VARCHAR(255), default='email')
+    create_at = db.Column(db.DATETIME)
     avatar = db.relationship('AppAvatar', backref=db.backref('avatars'), lazy=True)
     collects = db.relationship('Recommend', secondary=favorite, backref=db.backref('collectors', lazy=True))
     likes = db.relationship('Recommend', secondary=thumb, backref=db.backref('likers', lazy=True))

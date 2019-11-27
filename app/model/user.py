@@ -1,3 +1,4 @@
+import datetime
 from app.model import db
 from app.model.define import AppUser
 from app.util.exception import RegisterException, CommonException
@@ -7,11 +8,12 @@ from app.util.redis import red
 
 
 def add_user(username: str, password: str, phone: str):
+    current_time = datetime.datetime.now().strftime("%Y-%m-%d %H:%M:%S")
     res = AppUser.query.filter_by(username=username).first()
     if res is not None:
         raise RegisterException('用户名已存在')
     password = encode_md5(password)
-    user = AppUser(username=username, password=password, phone=phone, nickname=username)
+    user = AppUser(username=username, password=password, phone=phone, nickname=username, create_at=current_time)
     db.session.add(user)
     db.session.commit()
 
