@@ -1,9 +1,11 @@
 from app.model import db
+from app.util.data_time import get_time
 
 app_user_user = db.Table(
     'app_user_user',
     db.Column('app_user_id', db.Integer, db.ForeignKey('app_user.id')),
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'))
+    db.Column('user_id', db.Integer, db.ForeignKey('user.id')),
+    db.Column('create_at', db.DATETIME, default=get_time)
 )
 
 favorite = db.Table(

@@ -65,6 +65,7 @@ def get_recommends(user_id: int, recommends_id: list) -> list:
                     'create_by': second_commentor.nickname
                 })
             top_li.append({
+                'id': top_comment.id,
                 'content': top_comment.content,
                 'create_at': top_comment.create_at,
                 'create_by': top_commentor.nickname,
