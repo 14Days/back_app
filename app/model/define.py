@@ -11,13 +11,15 @@ app_user_user = db.Table(
 favorite = db.Table(
     'favorite',
     db.Column('app_user_id', db.Integer, db.ForeignKey('app_user.id')),
-    db.Column('recommend_id', db.Integer, db.ForeignKey('recommend.id'))
+    db.Column('recommend_id', db.Integer, db.ForeignKey('recommend.id')),
+    db.Column('create_at', db.DATETIME, default=get_time)
 )
 
 thumb = db.Table(
     'thumb',
     db.Column('app_user_id', db.Integer, db.ForeignKey('app_user.id')),
-    db.Column('recommend_id', db.Integer, db.ForeignKey('recommend.id'))
+    db.Column('recommend_id', db.Integer, db.ForeignKey('recommend.id')),
+    db.Column('create_at', db.DATETIME, default=get_time)
 )
 
 tag_recommemd = db.Table(
