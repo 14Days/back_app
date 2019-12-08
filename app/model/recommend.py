@@ -1,5 +1,6 @@
 from app.model.define import Recommend, AppUser, User
 from app.model.avatar import get_web_avatar
+from app.util.data_time import shift_time
 
 
 def get_recommends(user_id: int, recommends_id: list) -> list:
@@ -61,13 +62,13 @@ def get_recommends(user_id: int, recommends_id: list) -> list:
                 second_commentor = second_comment.second_commentor
                 second_li.append({
                     'content': second_comment.content,
-                    'create_at': second_comment.create_at,
+                    'create_at': shift_time(str(second_comment.create_at)),
                     'create_by': second_commentor.nickname
                 })
             top_li.append({
                 'id': top_comment.id,
                 'content': top_comment.content,
-                'create_at': top_comment.create_at,
+                'create_at': shift_time(str(top_comment.create_at)),
                 'create_by': top_commentor.nickname,
                 'second_comment': second_li
             })
@@ -80,7 +81,7 @@ def get_recommends(user_id: int, recommends_id: list) -> list:
             'sum_likes': sum_likes,
             'sum_collects': sum_collects,
             'content': recommend.content,
-            'create_at': recommend.create_at,
+            'create_at': shift_time(str(recommend.create_at)),
             'designer_id': user.id,
             'is_followed': is_followed,
             'is_collected': is_collected,
