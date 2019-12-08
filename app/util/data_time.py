@@ -6,7 +6,6 @@ def get_time():
 
 
 def shift_time(data: str) -> str:
-    print(data)
     temp = data.split(' ')
     return temp[0]
 
