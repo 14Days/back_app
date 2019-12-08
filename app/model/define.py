@@ -69,6 +69,7 @@ class User(db.Model):
     app_users = db.relationship('AppUser', secondary=app_user_user, backref=db.backref('followers', lazy=True))
     recommends = db.relationship('Recommend', backref=db.backref('who', lazy=True))
     avatar = db.relationship('Avatar', backref=db.backref('belong', lazy=True))
+    notices = db.relationship('Notice', backref=db.backref('who', lazy=True))
 
 
 class AppUserColor(db.Model):
@@ -114,6 +115,7 @@ class Notice(db.Model):
     content = db.Column(db.VARCHAR(255))
     type = db.Column(db.Integer)
     create_at = db.Column(db.DATETIME)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
 class AppAvatar(db.Model):

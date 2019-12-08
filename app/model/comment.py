@@ -18,3 +18,4 @@ def post_second_comment(app_user_id: int, top_comment_id: int, content: str):
     top_comment = TopComment.query.filter_by(id=top_comment_id).first()
     top_comment.second_comments.append(second_commend)
     db.session.commit()
+
