@@ -99,3 +99,5 @@ def web_user_recommend(webs_id: list) -> list:
         for recommend in recommends:
             li.append(recommend.id)
     return li
+
+
