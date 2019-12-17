@@ -28,12 +28,6 @@ tag_recommemd = db.Table(
     db.Column('recommend_id', db.Integer, db.ForeignKey('recommend.id'))
 )
 
-recommend_img = db.Table(
-    'recommend_img',
-    db.Column('recommend_id', db.Integer, db.ForeignKey('recommend.id')),
-    db.Column('img_id', db.Integer, db.ForeignKey('img.id'))
-)
-
 
 class Recommend(db.Model):
     __tablename__ = 'recommend'
@@ -42,7 +36,7 @@ class Recommend(db.Model):
     create_at = db.Column(db.DATETIME)
     delete_at = db.Column(db.DATETIME)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
-    imgs = db.relationship('Img', secondary=recommend_img, backref=db.backref('recommend', lazy=True))
+    imgs = db.relationship('Img', backref=db.backref('recommend', lazy=True))
     top_comments = db.relationship('TopComment', backref=db.backref('recommend', lazy=True))
 
 
@@ -91,6 +85,7 @@ class Img(db.Model):
     type = db.Column(db.CHAR)
     create_at = db.Column(db.DATETIME)
     delete_at = db.Column(db.DATETIME)
+    recommend_id = db.Column(db.Integer, db.ForeignKey('recommend.id'))
 
 
 color_tag = db.Table(
