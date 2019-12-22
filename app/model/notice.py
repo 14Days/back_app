@@ -4,7 +4,7 @@ from app.util.data_time import shift_time
 
 
 def get_notice() -> list:
-    res = Notice.query.filter_by(type=2).all()
+    res = Notice.query.filter_by(type=2).order_by(Notice.create_at.desc()).all()
     li = []
     for item in res:
         user = item.who
