@@ -120,6 +120,7 @@ class Notice(db.Model):
     content = db.Column(db.VARCHAR(255))
     type = db.Column(db.Integer)
     create_at = db.Column(db.DATETIME)
+    is_top = db.Column(db.Integer)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
