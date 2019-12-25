@@ -10,7 +10,7 @@ from app.util.redis import red
 def create_random_code() -> str:
     code = ''
     for i in range(0, 4):
-        code += str(random.randint(0, 9))
+        code += str(random.randint(1, 9))
     current_app.logger.info('create code %s', code)
     return code
 
