@@ -51,7 +51,7 @@ def register():
             return fail_res('参数格式不正确')
         old_code = get_code_from_redis(phone)
         if old_code is None:
-            return fail_res('验证码过期')
+            return fail_res('验证码错误')
         if code == str(old_code, encoding='utf-8'):
             add_user(username, password, phone)
             return success_res('注册成功')
