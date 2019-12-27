@@ -121,6 +121,7 @@ class Notice(db.Model):
     type = db.Column(db.Integer)
     create_at = db.Column(db.DATETIME)
     is_top = db.Column(db.Integer)
+    delete_at = db.Column(db.DateTime)
     user_id = db.Column(db.Integer, db.ForeignKey('user.id'))
 
 
